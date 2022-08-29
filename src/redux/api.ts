@@ -1,4 +1,4 @@
-const URL = process.env.BASE_URL;
+const URL = 'https://shop3-api.herokuapp.com';
 export const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
