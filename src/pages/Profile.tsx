@@ -36,7 +36,7 @@ const Profile = () => {
                 src={
                   image
                     ? image.filelocation
-                    : "http://localhost:5000/1661504600992i9g39672c0ihebgec680e6gc77_default_profile.png"
+                    : "https://shop3-api.herokuapp.com/1661504600992i9g39672c0ihebgec680e6gc77_default_profile.png"
                 }
                 alt="User Pic"
               />
