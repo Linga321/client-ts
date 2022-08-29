@@ -51,9 +51,9 @@ function ProductForm(props: any) {
 
   const prodctFromFieldValidation =
   title == "" ||
-  price == "" ||
-  discount == "" ||
-  quantity == "" ||
+  price == "" || Number(discount) > 5000 ||
+  discount == "" || Number(discount) <0 || Number(discount) > 100 ||
+  quantity == "" || 
   categoryId[0] == "" //|| // at least one image id
  // images[0] == "" ; // at least one image id
   const dispatch = useAppDispatch();
@@ -119,7 +119,7 @@ function ProductForm(props: any) {
           max={100}
           min={0}
           value={discount}
-          placeholder="% Product Price"
+          placeholder="% Product discount"
           onChange={(e) => setDiscount(e.target.value)}
         />
       </div>

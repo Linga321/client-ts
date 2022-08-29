@@ -1,4 +1,5 @@
-const URL = process.env["BASE_URL"];
+require('dotenv').config()
+const URL = process.env.BASE_URL;
 export const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
