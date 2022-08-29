@@ -1,5 +1,5 @@
-require('dotenv').config()
-const URL = process.env.BASE_URL;
+
+const URL = 'http://localhost:5000';
 export const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",

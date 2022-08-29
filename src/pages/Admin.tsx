@@ -52,16 +52,6 @@ const Admin = () => {
       <AdminCardContainer cards={productList} setProductId={setProductId} />
       <div className="page-number">
         <button
-            type="button"
-            onClick={() => {
-              count < 20 ? setCount(count + 1) : setCount(count);
-            }}
-          >
-            More
-        </button>
-      </div>
-      <div className="form-popup">
-        <input
          type="submit"
           onClick={() => {
             document.documentElement.style.setProperty(
@@ -72,10 +62,12 @@ const Admin = () => {
               "--dynamic-popup-product",
               "block"
             );
-          }}
-          value="Open Forms"
-        />
-          
+          }}>
+          Open Forms
+          </button>
+    
+      </div>
+      <div className="form-popup">          
         <div className="form-popup-product form-container">
           <ProductForm
             productIndex={indexProduct}

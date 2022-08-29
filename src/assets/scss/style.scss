@@ -647,8 +647,12 @@ ul.rating li {
   box-shadow: 0 2px 1rem -2px #000;
   transform: translateY(-3px);
 }
+.selected-category{
+  background-color: #b80000 !important;
+}
 
 .error-message {
+  padding-left: 10px;
   font-size: medium;
   color: var(--font-color--error);
 }

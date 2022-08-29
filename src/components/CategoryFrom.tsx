@@ -72,7 +72,7 @@ function CategoryForm(props: any) {
         </div>
         <div>
           <label> Category Image</label>
-          <FileUpload handleFile={setImage} />
+          <FileUpload handleFile={setImage} image={image} />
         </div>
         <p className="error-message">{errorMeg}</p>
         <div>

@@ -63,12 +63,12 @@ nav {
         padding: 14px 20px;
 
         &:hover {
-            background-color: shade(var(--color-primary), 10%);
+            background-color: rgba(0, 0, 0, 0.496);
         }
     }
 
     li a:hover {
-        background-color: red($color: #000000);
+        background-color: rgba(0, 0, 0, 0.496);
     }
 }
 

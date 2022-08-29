@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Button, Spinner } from "react-bootstrap";
 
 import { RootState } from "../redux/store";
 import { useAppDispatch } from "../redux/hooks";
@@ -22,7 +21,14 @@ function RegisterForm(props: any) {
       fisrtName == "" || lastName == "" || password == "" || email == "";
     if (!validateField) {
       if (password === conformPassword && password.length >= 5) {
-        return true;
+        let validRegex =
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+        if (email.match(validRegex)) {
+          return true;
+        } else {
+          setErrorMeg("Check your email");
+        }
       } else {
         if (password.length < 5) {
           setErrorMeg("Password must be longer than 5 characters");
@@ -31,8 +37,7 @@ function RegisterForm(props: any) {
         }
         return false;
       }
-    }
-    else{
+    } else {
       setErrorMeg("All fields are required");
       return false;
     }
@@ -41,22 +46,22 @@ function RegisterForm(props: any) {
     const validateField = await validateForm();
     if (validateField) {
       props.setLoading(true);
-      const result = await dispatch(
-        registerUser({
-          firstName: fisrtName,
-          lastName: lastName,
-          email: email,
-          password: password,
-        })
-      );
-      setTimeout(function () {    
-        if (result.payload?.message !== "") {
-          props.setErrorMeg(result.payload?.message)
-        } else {
-          props.formswitch("Login");
-        }
-        props.setLoading(false);
-      }, 2500);
+      // const result = await dispatch(
+      //   registerUser({
+      //     firstName: fisrtName,
+      //     lastName: lastName,
+      //     email: email,
+      //     password: password,
+      //   })
+      // );
+      // setTimeout(function () {
+      //   if (result.payload?.message !== "") {
+      //     props.setErrorMeg(result.payload?.message)
+      //   } else {
+      //     props.formswitch("Login");
+      //   }
+      //   props.setLoading(false);
+      // }, 2500);
     }
   };
 
@@ -69,7 +74,7 @@ function RegisterForm(props: any) {
           type="text"
           id="name"
           name="name"
-          placeholder="Your name.."
+          placeholder="Enter your first name"
           onChange={(e) => setFisrtName(e.target.value)}
         />
         <label>Last Name</label>
@@ -77,7 +82,7 @@ function RegisterForm(props: any) {
           type="text"
           id="name"
           name="name"
-          placeholder="Your name.."
+          placeholder="Enter your last name"
           onChange={(e) => setLastName(e.target.value)}
         />
         <label>Email</label>
@@ -85,7 +90,7 @@ function RegisterForm(props: any) {
           type="email"
           id="email"
           name="email"
-          placeholder="Your email.."
+          placeholder="Enter your email"
           onChange={(e) => setEmail(e.target.value)}
         />
         <label> Password</label>

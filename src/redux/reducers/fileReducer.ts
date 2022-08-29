@@ -23,7 +23,6 @@ export const uploadFile = createAsyncThunk(
     formData.append("image", filedata.file);
     if (filedata.imageId) {
       formData.append("imageId", filedata.imageId);
-      formData.append("fileName", filedata.fileName);
     }
     const settings = {
       method: "POST",
@@ -37,6 +36,20 @@ export const uploadFile = createAsyncThunk(
   }
 );
 
+export const deleteFile = createAsyncThunk(
+  "uploadFile",
+  async (filedata: any) => {
+    const settings = {
+      method: "DELETE",
+      headers: {
+        'Accept': 'application/json',
+         Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    };
+    return await apiRequestFetch(`/images/${filedata.imageId}`, settings);
+  }
+);
+
 const fileSlicer = createSlice({
   name: "fileReducer",
   initialState: initialState,
@@ -44,7 +57,6 @@ const fileSlicer = createSlice({
     addFile: (state, action) => {
       state = action.payload;
     },
-    deleteFile: (state, action) => {},
   },
   extraReducers: (builder) => {
     builder
@@ -64,4 +76,4 @@ const fileSlicer = createSlice({
 });
 
 export const fileReducer = fileSlicer.reducer;
-export const { addFile, deleteFile } = fileSlicer.actions;
+export const { addFile } = fileSlicer.actions;
