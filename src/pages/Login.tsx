@@ -22,6 +22,7 @@ const Login = () => {
           className="form-container"
           aria-describedby="Login and regisration page"
         >
+          {errorMeg && <p className="error-message-popup">{errorMeg}</p>}
           <div className="form">
             <div>
               {form === "Login" ? (
@@ -30,7 +31,6 @@ const Login = () => {
                 <RegisterForm formswitch={setForm} setLoading={setLoading} setErrorMeg={setErrorMeg}/>
               )}
             </div>
-            <p className="error-message">{errorMeg}</p>
             <div className="btnswitch">
               {form !== "Login" ? (
                 <input

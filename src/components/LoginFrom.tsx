@@ -39,7 +39,7 @@ function LoginForm(props: any) {
         } else {
           props.setErrorMeg('Email or Password incorrect')
         }
-      }, 4000);
+      }, 2500);
     }
     else{
       setMassage('Email and Password required')

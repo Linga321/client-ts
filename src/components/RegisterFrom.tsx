@@ -8,40 +8,57 @@ import { registerUser } from "../redux/reducers/userReducer";
 
 function RegisterForm(props: any) {
   const [register, setregister] = useState(false);
-  const [errorMeg, setErrorMeg] = useState(String);
-  const [fisrtName, setFisrtName] = useState(String);
-  const [lastName, setLastName] = useState(String);
-  const [email, setEmail] = useState(String);
-  const [password, setPassword] = useState(String);
-  const [conformPassword, setConfirmPassword] = useState(String);
+  const [errorMeg, setErrorMeg] = useState("");
+  const [fisrtName, setFisrtName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [conformPassword, setConfirmPassword] = useState("");
   const dispatch = useAppDispatch();
   const auth = useSelector((state: RootState) => state.authRedu);
 
-  useEffect(() => {
+  const validateForm = async () => {
     const validateField =
       fisrtName == "" || lastName == "" || password == "" || email == "";
     if (!validateField) {
-      if (password === conformPassword) {
-        props.setLoading(true);
-        dispatch(
-          registerUser({
-            firstName: fisrtName,
-            lastName: lastName,
-            email: email,
-            password: password
-          })
-        );
-        setTimeout(function () {
-          if (auth.userAuth) {
-            props.formswitch("Login");
-          }
-          props.setLoading(false);
-        }, 4000);
+      if (password === conformPassword && password.length >= 5) {
+        return true;
       } else {
-        setErrorMeg("Password Not Matched");
+        if (password.length < 5) {
+          setErrorMeg("Password must be longer than 5 characters");
+        } else if (password !== conformPassword) {
+          setErrorMeg("Password Not Matched");
+        }
+        return false;
       }
     }
-  }, [register]);
+    else{
+      setErrorMeg("All fields are required");
+      return false;
+    }
+  };
+  const submitForm = async () => {
+    const validateField = await validateForm();
+    if (validateField) {
+      props.setLoading(true);
+      const result = await dispatch(
+        registerUser({
+          firstName: fisrtName,
+          lastName: lastName,
+          email: email,
+          password: password,
+        })
+      );
+      setTimeout(function () {    
+        if (result.payload?.message !== "") {
+          props.setErrorMeg(result.payload?.message)
+        } else {
+          props.formswitch("Login");
+        }
+        props.setLoading(false);
+      }, 2500);
+    }
+  };
 
   return (
     <>
@@ -92,12 +109,12 @@ function RegisterForm(props: any) {
           type="submit"
           onClick={(e) => {
             e.preventDefault();
+            submitForm();
             setregister(register ? false : true);
           }}
           value="Register"
         />
       </form>
-
     </>
   );
 }

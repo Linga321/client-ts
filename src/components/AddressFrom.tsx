@@ -33,7 +33,7 @@ function AddressForm(props: any) {
      dispatch(createAddress({newAddress, userId:auth?._id}));
       setTimeout(function () {
         props.setLoading(false);
-      }, 4000);
+      }, 2500);
     }
   }, [address]);
 
