@@ -1,0 +1,35 @@
+//#  Colors
+.light {
+    --color-primary: #0060df;
+    --color-secondary: #fbfbfe;
+    --color-accent: #fd6f53;
+    --font-color: #000000;
+    --font-color--error: #e30505;
+}
+
+.dark {
+    --color-primary: #0a244d;
+    --color-secondary: #0a244d9f;
+    --color-accent: #8cabd9;
+    --font-color: #ffffff;
+    --font-color--error: #e30505;
+}
+
+$btn-loadmore-color :#7a7a7a66;
+
+$img-bc-color-one :none;
+$img-bc-color-two :#da0c0cdb;
+$img-bc-color-three :#441c4366;
+$img-bc-color-four :#170a8666;
+$img-bc-color-five :#20660c97;
+
+$img-one-color-one :#0c76da5e;
+$img-two-color-two :#31ff0d;
+$img-three-color-three :#5e405d4e;
+
+//#  fonts
+
+$font-main: 'Muli', sans-serif;
+$font-sub: 'Oleo Script', cursive;
+$font-heading: 'Dance Script', cursive;
+$font-btn: 'Play', sans-serif;
