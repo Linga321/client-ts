@@ -1,4 +1,4 @@
-const URL = process.env["BASE_URL"];
+const URL = process.env.BASE_URL;
 export const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
