@@ -13,7 +13,7 @@ import { FileUpload } from "./FileUpload";
 
 function ProfileEditForm(props: any) {
   const auth = useSelector((state: RootState) => state.authRedu.userAuth);
-  const imageId = auth?.avatar && JSON.parse(JSON.stringify(auth?.avatar))
+  const imageId = auth?.avatar && JSON.parse(JSON.stringify(auth?.avatar));
   const [loading, setLoading] = useState(false);
   const [errorMeg, setErrorMeg] = useState("");
   const [id, setId] = useState(auth ? auth._id : "");
@@ -24,7 +24,7 @@ function ProfileEditForm(props: any) {
   const [newPassword, setNewPassword] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMassage] = useState("");
-  const [image, setImage] = useState(imageId? imageId: "");
+  const [image, setImage] = useState(imageId ? imageId : "");
   const [role, setRole] = useState(auth ? auth.role : "");
   const dispatch = useAppDispatch();
 
@@ -34,9 +34,9 @@ function ProfileEditForm(props: any) {
     firstName == "" ||
     password == "" ||
     email == "" ||
-    mobile == "" ||
-    image == "" ;
-  
+    mobile == "" || mobile && mobile?.length >10 ||
+    image == "";
+
   const updateProfile = async () => {
     if (!profileEditValidation) {
       const editProfileData = {
@@ -51,7 +51,7 @@ function ProfileEditForm(props: any) {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password:newPassword,
+        password: newPassword,
         role: role,
         avatar: image,
         phone: mobile,
@@ -59,7 +59,12 @@ function ProfileEditForm(props: any) {
       setLoading(true);
 
       const result = await dispatch(
-        editUser({ user:   newPassword !="" ? editProfileDataWithPassword:  editProfileData, userId: id, password: password })
+        editUser({
+          user:
+            newPassword != "" ? editProfileDataWithPassword : editProfileData,
+          userId: id,
+          password: password,
+        })
       );
       setTimeout(async () => {
         setLoading(false);
@@ -67,9 +72,8 @@ function ProfileEditForm(props: any) {
       if (result.payload?._id) {
         navigate("/login");
       }
-    }
-    else{
-       setErrorMeg("Please fill the empty fields")
+    } else {
+      setErrorMeg("Please fill the empty fields");
     }
   };
 
@@ -110,10 +114,8 @@ function ProfileEditForm(props: any) {
           <input
             type="number"
             placeholder="Your phone number.."
-            value={mobile}
-            maxLength={10}
-            minLength={10}
-            onChange={(e) => setMobile(e.target.value)}
+            value={mobile && mobile.length <= 10 ? Number(mobile) : 0}
+            onChange={(e) => (setMobile(e.target.value)) }
           />
           {auth?.role === "Admin" && (
             <>
@@ -129,7 +131,7 @@ function ProfileEditForm(props: any) {
             </>
           )}
           <label> Profile Image</label>
-          <FileUpload handleFile={setImage} />
+          <FileUpload handleFile={setImage} image={image} />
           <label> New Password (Optional)</label>
           <input
             type="password"

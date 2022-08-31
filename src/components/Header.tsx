@@ -57,7 +57,7 @@ const Header = () => {
             <div className="drop-menu-content">
               <Link to="/"> {user?.role === "Admin" ? "Admin" : "Home"}</Link>
               <Link to="/products">Products</Link>
-              <Link to="/carts">Carts</Link>
+              <Link to="/carts/order">Carts</Link>
               {user && <Link to="/profile">Profile</Link>}
               <Link
                 to={user ? "/" : "/login"}
@@ -123,7 +123,7 @@ const Header = () => {
                     icon={numberOfCarts > 0 ? faCartPlus : faCartShopping}
                     onClick={() => {
                       if (numberOfCarts > 0) {
-                        navigate("/carts");
+                        navigate("/carts/order");
                       }
                     }}
                   />

@@ -512,13 +512,14 @@ ul.rating li {
 }
 
 .not-found {
+  
   display: flex;
   align-content: center;
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
   flex-wrap: nowrap;
-  margin-top: 20px;
+  margin-top: 100px;
   height: 120px;
 }
 
@@ -650,11 +651,14 @@ ul.rating li {
 .selected-category{
   background-color: #b80000 !important;
 }
-
+.heading-cart{
+  margin-left: 5%;
+  padding: 20px;
+}
 .error-message {
   padding-left: 10px;
   font-size: medium;
-  color: var(--font-color--error);
+  color: var(--font-color-error);
 }
 
 .error-message-popup{
@@ -664,5 +668,14 @@ ul.rating li {
   margin: 10px;
   top: 10px;
   right: 10px;
-  background-color: red;
+  background-color: rgb(192, 3, 3);
+}
+.success-message-popup{
+  display: block;
+  position: absolute;
+  padding: 10px;
+  margin: 10px;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(64, 238, 20, 0.534);
 }

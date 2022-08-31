@@ -30,15 +30,19 @@ function LoginForm(props: any) {
         })
       );
       props.setLoading(true);
-      setTimeout(function () {
-        props.setLoading(false);
+      setTimeout(async function () {
         if (result.payload) {
-          localStorage.setItem('token', result.payload.token);
-          dispatch(authUser(result.payload.token));
-          navigate(`/`);
+          localStorage.setItem("token",result.payload.token )
+          const userInfo = await dispatch(authUser(result.payload.token));
+          if (userInfo.payload?._id) {
+            navigate(`/`);
+          } else {
+            props.setErrorMeg(userInfo.payload?.message)
+          }
         } else {
           props.setErrorMeg('Email or Password incorrect')
         }
+        props.setLoading(false);
       }, 2500);
     }
     else{

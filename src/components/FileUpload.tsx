@@ -1,21 +1,24 @@
-import React, { useRef, useLayoutEffect, useState } from "react";
+import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 import { RootState } from "../redux/store";
 import { useAppDispatch } from "../redux/hooks";
-import { uploadFile, deleteFile } from "../redux/reducers/fileReducer";
+import {
+  uploadFile,
+  deleteFile,
+  getFiles,
+} from "../redux/reducers/fileReducer";
 import { File } from "../redux/types/file";
 
 export const FileUpload = (props: any) => {
   const dispatch = useAppDispatch();
   const [imageeLink, setImagesLink] = useState<File[]>([]);
   const [errorMeg, setErrorMeg] = useState("");
-  const file = useSelector((state: RootState) => state.fileRedu);
 
   const handleChange = async (event: any) => {
     const fileUploaded = event.target.files[0];
-    if(fileUploaded){
+    if (fileUploaded) {
       if (props.multi) {
         // if mutible images needed
         const created = await dispatch(uploadFile({ file: fileUploaded }));
@@ -28,10 +31,12 @@ export const FileUpload = (props: any) => {
               location: created.payload?.filelocation,
             },
           ]);
-          props.handleFile((prevImg: any) => [...prevImg, created.payload?._id]);
+          props.handleFile((prevImg: any) => [
+            ...prevImg,
+            created.payload?._id,
+          ]);
         } else {
           setErrorMeg("file not Upload");
-         
         }
       } else {
         const createdUpdate = await dispatch(
@@ -40,9 +45,30 @@ export const FileUpload = (props: any) => {
             imageId: imageeLink[0]?.imageId,
           })
         );
+        setImagesLink(
+          imageeLink.filter((item: File) => item.imageId !== props?.image._id)
+        );
         props.handleFile(createdUpdate.payload?._id);
-        
       }
+    }
+  };
+
+  const getImages = async () => {
+    const images = props?.images ? props?.images : [props?.image];
+    const foundFiles = await dispatch(getFiles(images));
+    if (foundFiles.payload) {
+      foundFiles.payload &&
+        foundFiles.payload.map((payload: any) => {
+          console.log("first");
+          setImagesLink((prev) => [
+            ...prev,
+            {
+              imageId: payload?._id,
+              fileName: payload?.filename,
+              location: payload?.filelocation,
+            },
+          ]);
+        });
     }
   };
 
@@ -50,13 +76,22 @@ export const FileUpload = (props: any) => {
     const created = await dispatch(deleteFile({ imageId: imageId }));
     if (props.multi) {
       if (created.payload?._id) {
-        setImagesLink(imageeLink.filter((item :File) => item.imageId !== imageId))
-        props.handleFile(props?.images.filter((item :any) => item !== imageId))
+        setImagesLink(
+          imageeLink.filter((item: File) => item.imageId !== imageId)
+        );
+        props.handleFile(props?.images.filter((item: any) => item !== imageId));
       } else {
         setErrorMeg("file not Deleted");
       }
     }
   };
+
+  useEffect(() => {
+    if ((props.multi && props?.images[0] !== undefined) || props?.image) {
+      setImagesLink([]);
+      getImages();
+    }
+  }, [props?.images || props?.image]);
 
   return (
     <>
@@ -68,19 +103,23 @@ export const FileUpload = (props: any) => {
         id="image"
       />
       <p className="error-message">{errorMeg}</p>
-      {imageeLink.length > 0 &&
-        imageeLink.map((img) => (
-          <img
-            onClick={(e) => {
-              e.preventDefault();
-              handleDelete(img.imageId);
-            }}
-            key={img.imageId}
-            className="show-image"
-            src={`${img.location}`}
-            alt="Image"
-          />
-        ))}
+      {imageeLink &&
+        imageeLink.map((img, index) => {
+          if (img) {
+            return (
+              <img
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleDelete(img.imageId);
+                }}
+                key={index}
+                className="show-image"
+                src={`${img.location}`}
+                alt="Image"
+              />
+            );
+          }
+        })}
     </>
   );
 };

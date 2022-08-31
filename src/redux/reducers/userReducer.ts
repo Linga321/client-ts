@@ -36,8 +36,8 @@ export const loginUser = createAsyncThunk(
   }
 )
 
-export const createAddress = createAsyncThunk(
-  "createAddress",
+export const createUserAddress = createAsyncThunk(
+  "createUserAddress",
   async (address: any) => {
     const settings = {
       method: "POST",
@@ -46,6 +46,30 @@ export const createAddress = createAsyncThunk(
       headers:  headers,
     };
     return await apiRequestFetch(`/users/${address.userId}/address`, settings);
+  }
+)
+
+export const updateUserAddress = createAsyncThunk(
+  "updateUserAddress",
+  async (address: any) => {
+    const settings = {
+      method: "PUT",
+      body: JSON.stringify({ address: address.newAddress.address,
+      place: address.newAddress.place,}),
+      headers:  headers,
+    };
+    return await apiRequestFetch(`/users/${address.userId}/address/${address.addressId}`, settings);
+  }
+)
+
+export const deleteUserAddress = createAsyncThunk(
+  "deleteUserAddress",
+  async (address: any) => {
+    const settings = {
+      method: "DELETE",
+      headers:  headers,
+    };
+    return await apiRequestFetch(`/users/${address.userId}/address/${address.addressId}`, settings);
   }
 )
 
@@ -61,6 +85,7 @@ export const getUserAddress = createAsyncThunk(
 )
 
 
+
 export const logoutUser = createAsyncThunk(
   "logoutUser",
   async (params: UserLogin) => {
@@ -69,7 +94,6 @@ export const logoutUser = createAsyncThunk(
       body: JSON.stringify(params),
       headers:  headers,
     };
-    localStorage.clear();
     return await apiRequestFetch(`/auth/logout`, settings);
   }
 )
@@ -92,12 +116,13 @@ export const registerUser = createAsyncThunk(
 export const editUser = createAsyncThunk(
   "editUser",
   async (params: any) => {
+    console.log(params?.userId)
     const settings = {
       method: "PUT",
       body: JSON.stringify({user: params.user, password: params.password}),
       headers:  headers,
     };
-    return await apiRequestFetch(`/users/${params.userId}`, settings);
+    return await apiRequestFetch(`/users/${params?.userId}`, settings);
   }
 )
 

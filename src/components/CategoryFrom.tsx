@@ -11,11 +11,13 @@ import {
   updateCategoryApi,
 } from "../redux/reducers/categoryReducer";
 
-/**
- * This is a Cate
- * @param props conatains single category for modification
- * @returns
+  /**
+ * This is an category form
+ * @handleSubmit is create or update category
+ * @param props.categoryIndex cantains catecory index that store in categoryList
+ * @returns CategoryForm
  */
+
 function CategoryForm(props: any) {
 
   const [categoryId, setCategoryId] = useState( "");
@@ -27,18 +29,19 @@ function CategoryForm(props: any) {
     (state: RootState) => state.categoryRedu.categoryList
   );
   const category = categoryList[props.categoryIndex];
+
   useEffect(()=>{
     setCategoryId(category?._id ? category._id:"")
     setName(category?.name? category.name:"")  
     setImage(category?.image ? category.image:"")
   },[props.categoryIndex])
 
-  const categoryUpdateOrAdd = async () => {
+  const handleSubmit = async () => {
     const categoryObject = {
       name: name,
       image: image,
     };
-    const validateField = name == "" || image == ""
+    const validateField = name === "" || image === ""
     if(!validateField){
       if (category) { // if category loaded for edit
         await dispatch(updateCategoryApi({categoryId: categoryId , categoryObject:categoryObject}));
@@ -80,7 +83,7 @@ function CategoryForm(props: any) {
             type="submit"
             onClick={(e) => {
               e.preventDefault();
-              categoryUpdateOrAdd();
+              handleSubmit();
             }}
             value={(category ? "Update" : "Create") + "  Category"}
           />

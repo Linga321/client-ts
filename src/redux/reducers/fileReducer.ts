@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiRequestFetch } from "../api";
+import { apiRequestFetch, headers } from "../api";
 
 import { File } from "../types/file";
 
@@ -13,6 +13,18 @@ export const fetchFile = createAsyncThunk(
   "fetchFile",
   async (fileId: string) => {
     return await apiRequestFetch(`/images/${fileId}`);
+  }
+);
+
+export const getFiles = createAsyncThunk(
+  "getFiles",
+  async (imagesId: any) => {
+    const settings = {
+      method: "POST",
+      body : JSON.stringify({imagesId}),
+      headers: headers,
+    };
+    return await apiRequestFetch('/images/images', settings);
   }
 );
 
@@ -71,6 +83,9 @@ const fileSlicer = createSlice({
           state.fileName = action.payload.filename;
           state.location = action.payload.filelocation;
         }
+      })
+      .addCase(getFiles.fulfilled, (state, action) => {
+        console.log(action.payload)
       });
   },
 });

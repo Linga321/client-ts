@@ -19,7 +19,7 @@ const Profile = () => {
     status: "Pending",
   };
   const getUserCarts = async() => {
-    await dispatch(getUserAllCartApi(cart ));
+    await dispatch(getUserAllCartApi(cart));
   };
   useEffect(() => {
     getUserCarts();
@@ -36,7 +36,7 @@ const Profile = () => {
                 src={
                   image
                     ? image.filelocation
-                    : "https://shop3-api.herokuapp.com/1661504600992i9g39672c0ihebgec680e6gc77_default_profile.png"
+                    : "http://localhost:5000/1661504600992i9g39672c0ihebgec680e6gc77_default_profile.png"
                 }
                 alt="User Pic"
               />
@@ -64,7 +64,7 @@ const Profile = () => {
                     </thead>
                     <tbody>
                       {allCartList.length > 0 &&
-                        allCartList.map((cart: any) => {
+                        allCartList.map((cart: any, index) => {
             
                           let outputDate = new Date(cart.createdAt).toDateString()
                           return (
@@ -72,7 +72,7 @@ const Profile = () => {
                               <td>{cart._id}</td>
                               <td>{cart.status}</td>
                               <td>{outputDate}</td>
-                              <td>View</td>
+                              <td><button onClick={()=>(navigate(`/carts/${index}`))}>View</button></td>
                             </tr>
                           );
                         })}

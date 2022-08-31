@@ -46,22 +46,23 @@ function RegisterForm(props: any) {
     const validateField = await validateForm();
     if (validateField) {
       props.setLoading(true);
-      // const result = await dispatch(
-      //   registerUser({
-      //     firstName: fisrtName,
-      //     lastName: lastName,
-      //     email: email,
-      //     password: password,
-      //   })
-      // );
-      // setTimeout(function () {
-      //   if (result.payload?.message !== "") {
-      //     props.setErrorMeg(result.payload?.message)
-      //   } else {
-      //     props.formswitch("Login");
-      //   }
-      //   props.setLoading(false);
-      // }, 2500);
+      const result = await dispatch(
+        registerUser({
+          firstName: fisrtName,
+          lastName: lastName,
+          email: email,
+          password: password,
+        })
+      );
+      setTimeout(function () {
+        if (result.payload?._id) {
+          props.formswitch("Login");
+          props.setErrorMeg("success")
+        } else {
+          props.setErrorMeg(result.payload?.message)
+        }
+        props.setLoading(false);
+      }, 2500);
     }
   };
 

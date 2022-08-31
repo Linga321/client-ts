@@ -17,7 +17,7 @@ export const createCategoryApi = createAsyncThunk(
   async (category: any) => {
     const settings = {
       method: "POST",
-      body: JSON.stringify(category),
+      body: JSON.stringify({category}),
       headers: headers,
     };
     return await apiRequestFetch("/category", settings);

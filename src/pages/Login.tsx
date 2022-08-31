@@ -22,7 +22,7 @@ const Login = () => {
           className="form-container"
           aria-describedby="Login and regisration page"
         >
-          {errorMeg && <p className="error-message-popup">{errorMeg}</p>}
+          {errorMeg && <p className={(errorMeg !== "success"? "success" : "error") +"-message-popup"}>{errorMeg}</p>}
           <div className="form">
             <div>
               {form === "Login" ? (

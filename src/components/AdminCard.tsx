@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,10 +11,12 @@ import { deleteProduct } from "../redux/reducers/productReducer";
 
 library.add(faTrashCan, faSquarePen);
 /**
- * This is a Product single card
- * @deleteProductById is delete function for deleteting the product card from store using id
+ * This is a Admin card
  * @param props.product cantains single product information
+ * @param props.setProductId cantains set useState for editing function tigger
  * @returns AdminCard
+ * @deleteProductById is delete function for deleteting the product card from store using id
+ * @param id product id
  */
 export const AdminCard = (props: any) => {
   const dispatch = useAppDispatch();
@@ -23,9 +25,10 @@ export const AdminCard = (props: any) => {
     authRedu: { userAuth: user },
   } = useSelector((state: RootState) => state);
 
-  const deleteProductById = (id: number) => {
-    dispatch(deleteProduct({ id: id }));
+  const deleteProductById = async (id: number) => {
+    await dispatch(deleteProduct({ id: id }));
   };
+
   return (
     <div className="card">
       <img

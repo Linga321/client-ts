@@ -38,7 +38,7 @@ function App(probs : any) {
       <Router>
         <Routes>
           <Route path="/" element={<Header />}>
-            {auth?.role==="Admin" ? <Route index element={<Admin />}/> : <Route index element={<Home />} />}
+            {auth?.role=="Admin" ? <Route index element={<Admin />}/> : <Route index element={<Home />} />}
             <Route path="/singleproduct/:id" element={<SingleProduct />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:categoryId" element={<Products />} />
@@ -46,7 +46,7 @@ function App(probs : any) {
             {auth && (
               <>
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/carts" element={<Carts />} />
+                <Route path="/carts/:mode" element={<Carts />} />
                 <Route path="/edit" element={<ProfileEditFrom />} />
               </>
             )}

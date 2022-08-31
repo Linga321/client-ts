@@ -102,6 +102,7 @@ const cartSlicer = createSlice({
       if(action.payload?.id == 'reset'){
         state.cartList = []
       }else{
+        if(action.payload?.id)
         state.cartList = state.cartList.filter(
           (prodart) => prodart.product._id != action.payload?.id
         )
@@ -119,7 +120,6 @@ const cartSlicer = createSlice({
         }
       })
       .addCase(getUserAllCartApi.fulfilled, (state, action) => {
-
         if(action.payload){
           console.log(action.payload)
           state.allCartList = action.payload

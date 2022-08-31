@@ -1,5 +1,5 @@
 
-const URL = 'https://shop3-api.herokuapp.com';
+const URL = 'http://localhost:5000';
 export const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
@@ -11,7 +11,7 @@ export const apiRequestFetch = async (path: string, settings?: any) => {
   if (settings) {
     data = await fetch(URL + path, settings);
   } else {
-    data = await fetch(URL + path, settings);
+    data = await fetch(URL + path);
   }
   if (
     data.status === 201 ||
