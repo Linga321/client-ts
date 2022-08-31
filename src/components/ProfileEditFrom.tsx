@@ -5,9 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../redux/store";
 import { useAppDispatch } from "../redux/hooks";
 import {
-  editProfile,
   editUser,
-  registerUser,
 } from "../redux/reducers/userReducer";
 import { FileUpload } from "./FileUpload";
 
@@ -34,7 +32,8 @@ function ProfileEditForm(props: any) {
     firstName == "" ||
     password == "" ||
     email == "" ||
-    mobile == "" || mobile && mobile?.length >10 ||
+    mobile == "" ||
+    (mobile && mobile?.length > 10) ||
     image == "";
 
   const updateProfile = async () => {
@@ -115,7 +114,7 @@ function ProfileEditForm(props: any) {
             type="number"
             placeholder="Your phone number.."
             value={mobile && mobile.length <= 10 ? Number(mobile) : 0}
-            onChange={(e) => (setMobile(e.target.value)) }
+            onChange={(e) => setMobile(e.target.value)}
           />
           {auth?.role === "Admin" && (
             <>

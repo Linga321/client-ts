@@ -1,5 +1,4 @@
-
-const URL = 'http://localhost:5000';
+const URL = "https://shop3-api.herokuapp.com";
 export const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",

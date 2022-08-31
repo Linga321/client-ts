@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 
-import { RootState } from "../redux/store";
 import { useAppDispatch } from "../redux/hooks";
 import { registerUser } from "../redux/reducers/userReducer";
 
@@ -14,7 +12,6 @@ function RegisterForm(props: any) {
   const [password, setPassword] = useState("");
   const [conformPassword, setConfirmPassword] = useState("");
   const dispatch = useAppDispatch();
-  const auth = useSelector((state: RootState) => state.authRedu);
 
   const validateForm = async () => {
     const validateField =

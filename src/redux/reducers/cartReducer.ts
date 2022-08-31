@@ -1,15 +1,15 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiRequestFetch, headers } from "../api";
 
-import { ProductCart, AllProductCart } from "../types/cart"
+import { ProductCart, AllProductCart } from "../types/cart";
 
- //cartList: pre order
- // allCartList:  post order
-const initialState: { cartList: ProductCart[] , allCartList: AllProductCart[] } = {
-  cartList: [] ,
-  allCartList: [],
-}
-
+//cartList: pre order
+// allCartList:  post order
+const initialState: { cartList: ProductCart[]; allCartList: AllProductCart[] } =
+  {
+    cartList: [],
+    allCartList: [],
+  };
 
 export const fetchCarts = createAsyncThunk(
   "fetchCarts",
@@ -37,7 +37,10 @@ export const getUserAllCartApi = createAsyncThunk(
       method: "GET",
       headers: headers,
     };
-    return await apiRequestFetch(`/carts/${cart.userId}/${cart.status}`, settings);
+    return await apiRequestFetch(
+      `/carts/${cart.userId}/${cart.status}`,
+      settings
+    );
   }
 );
 
@@ -64,7 +67,6 @@ export const deleteCartApi = createAsyncThunk(
   }
 );
 
-
 const cartSlicer = createSlice({
   name: "cartReducer",
   initialState: initialState,
@@ -73,15 +75,15 @@ const cartSlicer = createSlice({
       state.cartList.push({
         product: action.payload.cart,
         quantity: 1,
-      })
+      });
     },
     addQuantityCart: (state, action) => {
       state.cartList = state.cartList.map((cart) => {
         if (cart.product._id === action.payload.id) {
-          cart.quantity = cart.quantity + 1
+          cart.quantity = cart.quantity + 1;
         }
-        return cart
-      })
+        return cart;
+      });
     },
     minusQuantityCart: (state, action) => {
       state.cartList = state.cartList.map((cart) => {
@@ -90,49 +92,53 @@ const cartSlicer = createSlice({
             //cartSlicer.caseReducers.deleteCart(state, action)
             state.cartList = state.cartList.filter(
               (prodart) => prodart.product._id != action.payload.id
-            )
+            );
           } else {
-            cart.quantity = cart.quantity - 1
+            cart.quantity = cart.quantity - 1;
           }
         }
-        return cart
-      })
+        return cart;
+      });
     },
     deleteCart: (state, action) => {
-      if(action.payload?.id == 'reset'){
-        state.cartList = []
-      }else{
-        if(action.payload?.id)
-        state.cartList = state.cartList.filter(
-          (prodart) => prodart.product._id != action.payload?.id
-        )
+      if (action.payload?.id == "reset") {
+        state.cartList = [];
+      } else {
+        if (action.payload?.id)
+          state.cartList = state.cartList.filter(
+            (prodart) => prodart.product._id != action.payload?.id
+          );
       }
     },
     cancelCart: (state, action) => {
-      state.cartList = []
+      state.cartList = [];
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCarts.fulfilled, (state, action) => {
-        if(action.payload?._id){
-          state.allCartList = action.payload
+        if (action.payload?._id) {
+          state.allCartList = action.payload;
         }
       })
       .addCase(getUserAllCartApi.fulfilled, (state, action) => {
-        if(action.payload){
-          console.log(action.payload)
-          state.allCartList = action.payload
+        if (action.payload) {
+          state.allCartList = action.payload;
         }
       })
       .addCase(createCartApi.fulfilled, (state, action) => {
-        if(action.payload?._id){
-          state.cartList =[]
+        if (action.payload?._id) {
+          state.cartList = [];
         }
-      })
+      });
   },
-})
+});
 
-export const cartReducer = cartSlicer.reducer
-export const { addCart, deleteCart, addQuantityCart, minusQuantityCart, cancelCart } =
-  cartSlicer.actions
+export const cartReducer = cartSlicer.reducer;
+export const {
+  addCart,
+  deleteCart,
+  addQuantityCart,
+  minusQuantityCart,
+  cancelCart,
+} = cartSlicer.actions;

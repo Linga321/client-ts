@@ -32,7 +32,6 @@ const Carts = () => {
     userId: user?._id,
     products: [],
   };
-  
 
   if (cartList.length > 0) {
     cartList.map((cart: ProductCart) => {
@@ -43,7 +42,6 @@ const Carts = () => {
       newcart.products.push(data);
     });
   }
-
 
   let initialState: { filteredCartList: ProductCart[]  } = {
     filteredCartList: [] ,
@@ -76,7 +74,6 @@ const Carts = () => {
     if (mode === "order") {
       if (numberOfItem == 0) {
         cartList.map((cart)=>(initialState.filteredCartList.push(cart) ))
-        console.log(initialState.filteredCartList)
       }
     }else {
       allCartList && allCartList[Number(mode)]?.products.map((cart: any) => {
@@ -84,11 +81,7 @@ const Carts = () => {
           quantity: cart?.itemQuantity}
           initialState.filteredCartList.push(data)
       });
-      console.log(initialState.filteredCartList)
-      console.log(cartList)
-    
     }
-    
   };
   if (numberOfItem===0) {
     handleSubmitAddress();

@@ -17,7 +17,7 @@ export const createCategoryApi = createAsyncThunk(
   async (category: any) => {
     const settings = {
       method: "POST",
-      body: JSON.stringify({category}),
+      body: JSON.stringify({ category }),
       headers: headers,
     };
     return await apiRequestFetch("/category", settings);
@@ -29,7 +29,7 @@ export const updateCategoryApi = createAsyncThunk(
   async (category: any) => {
     const settings = {
       method: "PUT",
-      body: JSON.stringify({category:category.categoryObject}),
+      body: JSON.stringify({ category: category.categoryObject }),
       headers: headers,
     };
     return await apiRequestFetch(`/category/${category.categoryId}`, settings);
@@ -64,25 +64,27 @@ const categorySlicer = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchCategory.fulfilled, (state, action) => {
-      state.categoryList = action.payload;
-    }).addCase(createCategoryApi.fulfilled, (state, action) => {
-      state.categoryList.push(action.payload);
-    })
-    .addCase(updateCategoryApi.fulfilled, (state, action) => {
-        state.categoryList = state.categoryList.map((category)=> {
-          if( action.payload && category._id == action.payload._id ) {
-            return action.payload
+    builder
+      .addCase(fetchCategory.fulfilled, (state, action) => {
+        state.categoryList = action.payload;
+      })
+      .addCase(createCategoryApi.fulfilled, (state, action) => {
+        state.categoryList.push(action.payload);
+      })
+      .addCase(updateCategoryApi.fulfilled, (state, action) => {
+        state.categoryList = state.categoryList.map((category) => {
+          if (action.payload && category._id == action.payload._id) {
+            return action.payload;
           } else {
             return category;
           }
         });
-    })
-    .addCase(deleteCategoryApi.fulfilled, (state, action) => {
-      state.categoryList = state.categoryList.filter(
-        (category) => category._id != action.payload.id
-      );
-    })
+      })
+      .addCase(deleteCategoryApi.fulfilled, (state, action) => {
+        state.categoryList = state.categoryList.filter(
+          (category) => category._id != action.payload.id
+        );
+      });
   },
 });
 

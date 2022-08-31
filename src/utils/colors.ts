@@ -1,28 +1,34 @@
-import CSS from 'csstype';
+import CSS from "csstype";
 
 export const themeStyles: CSS.Properties = {
-  backgroundColor: 'rgba(255, 255, 255, 0.85)',
+  backgroundColor: "rgba(255, 255, 255, 0.85)",
 };
 
 export const toggleTheme = () => {
-  const activetheme = getTheme()
+  const activetheme = getTheme();
   if (activetheme === "dark") {
-      setTheme('light');
+    setTheme("light");
   } else {
-      setTheme('dark');
+    setTheme("dark");
   }
-  return getTheme()
-}
+  return getTheme();
+};
 
 export const getTheme = () => {
-  const activetheme = localStorage.getItem("theme") as string
+  const activetheme = localStorage.getItem("theme") as string;
   document.documentElement.className = activetheme;
   return activetheme;
-}
+};
 
-const setTheme =(themeName : string) =>{
-  localStorage.setItem('theme', themeName);
+const setTheme = (themeName: string) => {
+  localStorage.setItem("theme", themeName);
   document.documentElement.className = themeName;
-  document.documentElement.style.setProperty('--dynamic-colour',themeName=="dark" ? "181, 176, 176, 0.56" : "71, 52, 52, 0.886");
-  document.documentElement.style.setProperty('--dynamic-text-colour',themeName=="dark" ? "black" : "white");
-}
+  document.documentElement.style.setProperty(
+    "--dynamic-colour",
+    themeName == "dark" ? "181, 176, 176, 0.56" : "71, 52, 52, 0.886"
+  );
+  document.documentElement.style.setProperty(
+    "--dynamic-text-colour",
+    themeName == "dark" ? "black" : "white"
+  );
+};

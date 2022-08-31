@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-//import bcrypt from 'bcryptjs'
 
-import { RootState } from "../redux/store";
 import { useAppDispatch } from "../redux/hooks";
 import { loginUser, authUser } from "../redux/reducers/userReducer";
 
@@ -14,9 +11,6 @@ function LoginForm(props: any) {
   const [email, setEmail] = useState(String);
   const [password, setPassword] = useState(String);
   const [message, setMassage] = useState("");
-  const {
-    authRedu: { userAuth: auth, userToken: accessToken },
-  } = useSelector((state: RootState) => state);
 
   const login = async (e: any) => {
     e.preventDefault();
@@ -32,23 +26,21 @@ function LoginForm(props: any) {
       props.setLoading(true);
       setTimeout(async function () {
         if (result.payload) {
-          localStorage.setItem("token",result.payload.token )
+          localStorage.setItem("token", result.payload.token);
           const userInfo = await dispatch(authUser(result.payload.token));
           if (userInfo.payload?._id) {
             navigate(`/`);
           } else {
-            props.setErrorMeg(userInfo.payload?.message)
+            props.setErrorMeg(userInfo.payload?.message);
           }
         } else {
-          props.setErrorMeg('Email or Password incorrect')
+          props.setErrorMeg("Email or Password incorrect");
         }
         props.setLoading(false);
       }, 2500);
+    } else {
+      setMassage("Email and Password required");
     }
-    else{
-      setMassage('Email and Password required')
-    }
-    
   };
 
   return (
@@ -71,13 +63,7 @@ function LoginForm(props: any) {
           name="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <>
-          {message && (
-            <span className="error-message">
-              {message}
-            </span>
-          )}
-        </>
+        <>{message && <span className="error-message">{message}</span>}</>
         <input type="submit" onClick={login} value="Login" />
       </form>
     </>

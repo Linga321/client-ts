@@ -58,7 +58,7 @@ export const AdminCard = (props: any) => {
               <FontAwesomeIcon
                 icon={faSquarePen}
                 onClick={(e) => {
-                  e.preventDefault()
+                  e.preventDefault();
                   props.setProductId(props.product._id);
                   document.documentElement.style.setProperty(
                     "--dynamic-popup-product",
@@ -69,7 +69,7 @@ export const AdminCard = (props: any) => {
               <FontAwesomeIcon
                 icon={faTrashCan}
                 onClick={(e) => {
-                  e.preventDefault()
+                  e.preventDefault();
                   deleteProductById(props.product._id);
                 }}
               />

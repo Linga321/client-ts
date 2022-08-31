@@ -11,7 +11,7 @@ import {
   updateCategoryApi,
 } from "../redux/reducers/categoryReducer";
 
-  /**
+/**
  * This is an category form
  * @handleSubmit is create or update category
  * @param props.categoryIndex cantains catecory index that store in categoryList
@@ -19,8 +19,7 @@ import {
  */
 
 function CategoryForm(props: any) {
-
-  const [categoryId, setCategoryId] = useState( "");
+  const [categoryId, setCategoryId] = useState("");
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [errorMeg, setErrorMeg] = useState("");
@@ -30,22 +29,28 @@ function CategoryForm(props: any) {
   );
   const category = categoryList[props.categoryIndex];
 
-  useEffect(()=>{
-    setCategoryId(category?._id ? category._id:"")
-    setName(category?.name? category.name:"")  
-    setImage(category?.image ? category.image:"")
-  },[props.categoryIndex])
+  useEffect(() => {
+    setCategoryId(category?._id ? category._id : "");
+    setName(category?.name ? category.name : "");
+    setImage(category?.image ? category.image : "");
+  }, [props.categoryIndex]);
 
   const handleSubmit = async () => {
     const categoryObject = {
       name: name,
       image: image,
     };
-    const validateField = name === "" || image === ""
-    if(!validateField){
-      if (category) { // if category loaded for edit
-        await dispatch(updateCategoryApi({categoryId: categoryId , categoryObject:categoryObject}));
-      }else{
+    const validateField = name === "" || image === "";
+    if (!validateField) {
+      if (category) {
+        // if category loaded for edit
+        await dispatch(
+          updateCategoryApi({
+            categoryId: categoryId,
+            categoryObject: categoryObject,
+          })
+        );
+      } else {
         await dispatch(createCategoryApi(categoryObject));
       }
       document.documentElement.style.setProperty(
@@ -53,9 +58,8 @@ function CategoryForm(props: any) {
         "none"
       );
       props.setCategoryId("");
-    }
-    else{
-      setErrorMeg("Name and Image required")
+    } else {
+      setErrorMeg("Name and Image required");
     }
   };
 

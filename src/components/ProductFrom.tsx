@@ -5,8 +5,6 @@ import { RootState } from "../redux/store";
 import { useAppDispatch } from "../redux/hooks";
 import { FileUpload } from "./FileUpload";
 import { Category } from "../redux/types/category";
-import { fetchCategory } from "../redux/reducers/categoryReducer";
-import classNames from "classnames";
 import {
   addProduct,
   createProductApi,
@@ -112,8 +110,6 @@ function ProductForm(props: any) {
         setCategoryId((prevImg) => [...prevImg, cateId]);
       }
     }
-
-    console.log(categoryId);
   };
   return (
     <>

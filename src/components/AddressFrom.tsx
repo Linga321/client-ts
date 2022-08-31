@@ -27,7 +27,6 @@ function AddressForm(props: any) {
   const dispatch = useAppDispatch();
   const auth = useSelector((state: RootState) => state.authRedu.userAuth);
 
-  
   useEffect(() => {
     setStreet(address?.userAddress ? address.userAddress?.street : "");
     setPostal(address?.userAddress ? address.userAddress?.postal : "");
@@ -51,7 +50,6 @@ function AddressForm(props: any) {
         place: placeName,
       };
       if (address?.userAddress) {
-       
         await dispatch(
           deleteUserAddress({
             newAddress,
@@ -63,21 +61,21 @@ function AddressForm(props: any) {
           props.setLoading(false);
         }, 2500);
       } else {
-        const result = await dispatch(createUserAddress({ newAddress, userId: auth?._id }));
-       
+        const result = await dispatch(
+          createUserAddress({ newAddress, userId: auth?._id })
+        );
+
         if (result.payload?.message) {
-          props.setErrorMeg(result.payload.message as string)
-        } 
+          props.setErrorMeg(result.payload.message as string);
+        }
         setTimeout(function () {
           props.setLoading(false);
         }, 2500);
       }
     }
   };
-console.log(address)
   return (
     <>
- 
       <form className="Registrationfrom">
         <label>Street Name</label>
         <input
@@ -114,18 +112,14 @@ console.log(address)
           value={placeName}
           onChange={(e) => setPlaceName(e.target.value)}
         />
-           {errorMeg && (
-            <span className="error-message">
-              {errorMeg}
-            </span>
-          )}
+        {errorMeg && <span className="error-message">{errorMeg}</span>}
         <input
           type="submit"
           onClick={(e) => {
             e.preventDefault();
             handleSubmit();
           }}
-          value={address?.userAddress ? "update address": "Add new Address" }
+          value={address?.userAddress ? "update address" : "Add new Address"}
         />
       </form>
     </>

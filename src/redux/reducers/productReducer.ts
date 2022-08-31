@@ -174,9 +174,7 @@ const productSlicer = createSlice({
           (product) => product._id != action.payload._id
         );
       })
-      .addCase(getProductRateApi.fulfilled, (state, action) => {
-        
-      })
+      .addCase(getProductRateApi.fulfilled, (state, action) => {})
       .addCase(getProductReviewApi.fulfilled, (state, action) => {
         state.productReviewList = action.payload;
       })

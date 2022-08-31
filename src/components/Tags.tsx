@@ -10,12 +10,13 @@ export const Tags = (props: any) => {
   const handleClick = () => {
     setIsActive(isActive ? false : true);
   };
-  const image = props.category?.image && JSON.parse(JSON.stringify(props.category.image))
+  const image =
+    props.category?.image && JSON.parse(JSON.stringify(props.category.image));
   return (
     <div
-      className={"categories-card " + (isActive? 'tag-active' : '')}
+      className={"categories-card " + (isActive ? "tag-active" : "")}
       onClick={(e) => {
-        handleClick()
+        handleClick();
         navigate(`/products/${props.category._id}`);
       }}
     >

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 import { RootState } from "../redux/store"
-import SingleProduct from "../pages/SingleProduct"
 import { useAppDispatch } from "../redux/hooks"
 import {
   addCart,

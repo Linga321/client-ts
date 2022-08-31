@@ -16,17 +16,14 @@ export const fetchFile = createAsyncThunk(
   }
 );
 
-export const getFiles = createAsyncThunk(
-  "getFiles",
-  async (imagesId: any) => {
-    const settings = {
-      method: "POST",
-      body : JSON.stringify({imagesId}),
-      headers: headers,
-    };
-    return await apiRequestFetch('/images/images', settings);
-  }
-);
+export const getFiles = createAsyncThunk("getFiles", async (imagesId: any) => {
+  const settings = {
+    method: "POST",
+    body: JSON.stringify({ imagesId }),
+    headers: headers,
+  };
+  return await apiRequestFetch("/images/images", settings);
+});
 
 export const uploadFile = createAsyncThunk(
   "uploadFile",
@@ -40,8 +37,8 @@ export const uploadFile = createAsyncThunk(
       method: "POST",
       body: formData,
       headers: {
-        'Accept': 'application/json',
-         Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     };
     return await apiRequestFetch(`/images`, settings);
@@ -54,8 +51,8 @@ export const deleteFile = createAsyncThunk(
     const settings = {
       method: "DELETE",
       headers: {
-        'Accept': 'application/json',
-         Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     };
     return await apiRequestFetch(`/images/${filedata.imageId}`, settings);
@@ -84,9 +81,7 @@ const fileSlicer = createSlice({
           state.location = action.payload.filelocation;
         }
       })
-      .addCase(getFiles.fulfilled, (state, action) => {
-        console.log(action.payload)
-      });
+      .addCase(getFiles.fulfilled, (state, action) => {});
   },
 });
 

@@ -28,13 +28,6 @@ function ReviewReviewForm(props: any) {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getProductReviewApi({ productId: productId }));
-    // if (product && product._id) {
-    //   setReviewId(product._id ? product._id : "");
-    //   const categories =
-    //     product.categoryId && JSON.parse(JSON.stringify(product.categoryId));
-    //   const images =
-    //     product.imagesId && JSON.parse(JSON.stringify(product.imagesId));
-    // }
   }, [props.productIndex || id]);
 
   const reviewValidation = review == "";
@@ -66,7 +59,7 @@ function ReviewReviewForm(props: any) {
   };
 
   return (
-    <div className="review-main-container" >
+    <div className="review-main-container">
       <div className="review-container">
         <div></div>
         <div>
@@ -80,15 +73,15 @@ function ReviewReviewForm(props: any) {
                       src={
                         user?.avatar?.filelocation
                           ? user?.avatar?.filelocation
-                          : "http://localhost:5000/1661504600992i9g39672c0ihebgec680e6gc77_default_profile.png"
+                          : "https://shop3-api.herokuapp.com/1661504600992i9g39672c0ihebgec680e6gc77_default_profile.png"
                       }
                       alt="user img"
                     />
-                   <p> {user.firstName}</p>
+                    <p> {user.firstName}</p>
                   </div>
                   <div className="review-footer">
-                      <p> {review.comment}</p>
-                    </div>
+                    <p> {review.comment}</p>
+                  </div>
                 </div>
               );
             }
@@ -96,72 +89,74 @@ function ReviewReviewForm(props: any) {
         </div>
       </div>
       <div className="form-container">
-        {userAuth?._id && <form>
-          <div className="rating-button">
-            <img
-              className={rating >= 1 ? "star-active" : ""}
-              src={require("../assets/pictures/star.png")}
-              onClick={(e) => setRating(1)}
-              alt="rrat 1"
-            />
-            <img
-              className={rating >= 2 ? "star-active" : ""}
-              src={require("../assets/pictures/star.png")}
-              onClick={(e) => setRating(2)}
-              alt="rrat 2"
-            />
-            <img
-              className={rating >= 3 ? "star-active" : ""}
-              src={require("../assets/pictures/star.png")}
-              onClick={(e) => setRating(3)}
-              alt="rrat 3"
-            />
-            <img
-              className={rating >= 4 ? "star-active" : ""}
-              src={require("../assets/pictures/star.png")}
-              onClick={(e) => setRating(4)}
-              alt="rrat 4"
-            />
-            <img
-              className={rating >= 5 ? "star-active" : ""}
-              src={require("../assets/pictures/star.png")}
-              onClick={(e) => setRating(5)}
-              alt="rrat 5"
-            />
-          </div>
-          <div>
-            <label> Review</label>
-            <textarea
-              rows={4}
-              cols={31}
-              placeholder="Product Review"
-              value={review}
-              onChange={(e) => setReview(e.target.value)}
-            />
-          </div>
-          <p className="error-message">{errorMeg}</p>
-          <div>
-            <input
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                productUpdateOrAdd();
-              }}
-              value={(product.length > 0 ? "Update" : "Create") + " Review"}
-            />
-            <input
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                document.documentElement.style.setProperty(
-                  "--dynamic-popup-product",
-                  "none"
-                );
-              }}
-              value="Cancel"
-            />
-          </div>
-        </form>}
+        {userAuth?._id && (
+          <form>
+            <div className="rating-button">
+              <img
+                className={rating >= 1 ? "star-active" : ""}
+                src={require("../assets/pictures/star.png")}
+                onClick={(e) => setRating(1)}
+                alt="rrat 1"
+              />
+              <img
+                className={rating >= 2 ? "star-active" : ""}
+                src={require("../assets/pictures/star.png")}
+                onClick={(e) => setRating(2)}
+                alt="rrat 2"
+              />
+              <img
+                className={rating >= 3 ? "star-active" : ""}
+                src={require("../assets/pictures/star.png")}
+                onClick={(e) => setRating(3)}
+                alt="rrat 3"
+              />
+              <img
+                className={rating >= 4 ? "star-active" : ""}
+                src={require("../assets/pictures/star.png")}
+                onClick={(e) => setRating(4)}
+                alt="rrat 4"
+              />
+              <img
+                className={rating >= 5 ? "star-active" : ""}
+                src={require("../assets/pictures/star.png")}
+                onClick={(e) => setRating(5)}
+                alt="rrat 5"
+              />
+            </div>
+            <div>
+              <label> Review</label>
+              <textarea
+                rows={4}
+                cols={31}
+                placeholder="Product Review"
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+              />
+            </div>
+            <p className="error-message">{errorMeg}</p>
+            <div>
+              <input
+                type="submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  productUpdateOrAdd();
+                }}
+                value={(product.length > 0 ? "Update" : "Create") + " Review"}
+              />
+              <input
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.documentElement.style.setProperty(
+                    "--dynamic-popup-product",
+                    "none"
+                  );
+                }}
+                value="Cancel"
+              />
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

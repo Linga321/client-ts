@@ -8,7 +8,6 @@ import { AdminCardContainer } from "../components/AdminCardContainer";
 import { AdminTags } from "../components/AdminTags";
 import ProductForm from "../components/ProductFrom";
 import CategoryForm from "../components/CategoryFrom";
-import { Placeholder } from "react-bootstrap";
 
 const Admin = () => {
   const [count, setCount] = useState(0);
@@ -81,14 +80,18 @@ const Admin = () => {
             />
           ))}
       </div>
-      <div className="searchbar"> <input className="form-container"
-            value={productName}
-            onChange={(e) => {
-              setProductName(e.target.value);
-            }}
-            placeholder="Search product and find"
-          /></div>
-     
+      <div className="searchbar">
+        {" "}
+        <input
+          className="form-container"
+          value={productName}
+          onChange={(e) => {
+            setProductName(e.target.value);
+          }}
+          placeholder="Search product and find"
+        />
+      </div>
+
       <AdminCardContainer
         cards={filteredProductList}
         setProductId={setProductId}

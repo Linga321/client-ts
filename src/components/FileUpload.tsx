@@ -1,8 +1,5 @@
-import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 
-import { RootState } from "../redux/store";
 import { useAppDispatch } from "../redux/hooks";
 import {
   uploadFile,
@@ -59,7 +56,6 @@ export const FileUpload = (props: any) => {
     if (foundFiles.payload) {
       foundFiles.payload &&
         foundFiles.payload.map((payload: any) => {
-          console.log("first");
           setImagesLink((prev) => [
             ...prev,
             {
