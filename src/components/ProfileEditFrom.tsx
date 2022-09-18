@@ -110,6 +110,7 @@ function ProfileEditForm(props: any) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <label>Mobile number</label>
           <input
             type="number"
             placeholder="Your phone number.."
