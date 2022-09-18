@@ -106,7 +106,9 @@ export const FileUpload = (props: any) => {
               <img
                 onClick={(e) => {
                   e.preventDefault();
-                  handleDelete(img.imageId);
+                  if(props.multi){
+                    handleDelete(img.imageId);
+                  }
                 }}
                 key={index}
                 className="show-image"

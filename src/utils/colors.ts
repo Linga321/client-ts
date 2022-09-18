@@ -25,7 +25,7 @@ const setTheme = (themeName: string) => {
   document.documentElement.className = themeName;
   document.documentElement.style.setProperty(
     "--dynamic-colour",
-    themeName == "dark" ? "181, 176, 176, 0.56" : "71, 52, 52, 0.886"
+    themeName == "dark" ? "light" : "dark"
   );
   document.documentElement.style.setProperty(
     "--dynamic-text-colour",

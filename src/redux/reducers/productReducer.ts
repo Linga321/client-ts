@@ -12,9 +12,9 @@ const initialState: { productList: Product[]; productReviewList: Review[] } = {
  */
 
 export const fetchProducts = createAsyncThunk(
-  "fetchProduct",
+  "fetchProducts",
   async (params: string) => {
-    return await apiRequestFetch(`/products`);
+    return await apiRequestFetch(`/products${params}`);
   }
 );
 

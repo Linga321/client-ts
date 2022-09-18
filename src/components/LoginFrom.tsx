@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch } from "../redux/hooks";
 import { loginUser, authUser } from "../redux/reducers/userReducer";
+import { Input } from "./Input";
 
 function LoginForm(props: any) {
   const dispatch = useAppDispatch();
@@ -12,10 +13,10 @@ function LoginForm(props: any) {
   const [password, setPassword] = useState(String);
   const [message, setMassage] = useState("");
 
-  const login = async (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const validateField = password == "" || email == "";
-    if (!validateField) {
+    const validateInput = email ==="" || password ===""
+    if (!validateInput) {
       //const hashedPassword = bcrypt.hashSync(password, process.env.SECRECT_KEY)
       const result = await dispatch(
         loginUser({
@@ -25,12 +26,12 @@ function LoginForm(props: any) {
       );
       props.setLoading(true);
       setTimeout(async function () {
-        if (result.payload) {
-          localStorage.setItem("token", result.payload.token);
-          const userInfo = await dispatch(authUser(result.payload.token));
+        if (result.payload?.token) {
+          const userInfo = await dispatch(authUser(result.payload?.token));
           if (userInfo.payload?._id) {
             navigate(`/`);
           } else {
+            localStorage.removeItem("token");
             props.setErrorMeg(userInfo.payload?.message);
           }
         } else {
@@ -38,8 +39,6 @@ function LoginForm(props: any) {
         }
         props.setLoading(false);
       }, 2500);
-    } else {
-      setMassage("Email and Password required");
     }
   };
 
@@ -48,23 +47,25 @@ function LoginForm(props: any) {
       <h2 className="title">Welcome to Shop(^V^)</h2>
       <form className="loginform">
         <label>Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
+        <Input 
+          type="email" 
           placeholder="Enter your email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          inputValue={email} 
+          setInputValue={setEmail} 
+          name="email"
+          error={message}
+          />
         <label> Password</label>
-        <input
+        <Input
           type="password"
-          placeholder="*******"
-          id="password"
+          placeholder="********"
+          inputValue={password}
+          setInputValue={setPassword}
           name="password"
-          onChange={(e) => setPassword(e.target.value)}
+          error={message}
         />
-        <>{message && <span className="error-message">{message}</span>}</>
-        <input type="submit" onClick={login} value="Login" />
+        <>{message && <span className="error-message">{""}</span>}</>
+        <input type="submit" onClick={handleSubmit} value="Login" />
       </form>
     </>
   );

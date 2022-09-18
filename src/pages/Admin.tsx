@@ -61,9 +61,8 @@ const Admin = () => {
   useEffect(() => {
     if (count != 0) {
       const limit = 10;
-      const newOffset = count * limit;
       dispatch(
-        fetchProducts(`offset=${count == 0 ? 0 : newOffset}&limit=${limit}`)
+        fetchProducts(`/${count}/${limit}/title`)
       );
     }
   }, [count]);

@@ -131,6 +131,8 @@ export const editUser = createAsyncThunk("editUser", async (params: any) => {
 });
 
 export const authUser = createAsyncThunk("authUser", async (params: any) => {
+  headers.Authorization = `Bearer ${params}`
+  localStorage.setItem("token", params);
   const settings = {
     method: "GET",
     headers: headers,

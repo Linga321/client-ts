@@ -21,23 +21,32 @@ export const Card = (props: any) => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const {authRedu:{userAuth:user}, cartRedu : {cartList, allCartList}} = useSelector((state: RootState) => state)
+  const image : any = JSON.parse(JSON.stringify(props.product.imagesId))
+
   const add = (id: number) => {
-    const found = cartList.findIndex((x) => x.product._id === props.product.id)
+    const found = cartList.findIndex((x :any) => x.product._id === props.product.id)
     if (found >= 0) {
       dispatch(addQuantityCart({ id: id }))
     }
   }
+
   const minus = (id: number) => {
-    const found = cartList.findIndex((x) => x.product._id === props.product.id)
+    const found = cartList.findIndex((x:any) => x.product._id === props.product.id)
     if (found >= 0) {
       cartList[found].quantity != 1
         ? dispatch(minusQuantityCart({ id: id }))
         : dispatch(deleteCart({ id: props.product.id }))
     }
   }
+  const productDiscount =
+  (props.product.price -
+    props.product.price *
+      (props.product.discount / 100));
+
+  const productTotalAmount =  productDiscount * props.quantity
   useEffect(() => {
     if (cart) {
-      const found = cartList.findIndex((x) => x.product._id === props.product.id)
+      const found = cartList.findIndex((x :any) => x.product._id === props.product.id)
       if (found < 0) {
         dispatch(addCart({ cart }))
       } else {
@@ -46,26 +55,31 @@ export const Card = (props: any) => {
     }
   }, [quantity])
 
-  const image : any = JSON.parse(JSON.stringify(props.product.imagesId))
   return (
-    <div className="card">
+    <div className="card" 
+    onClick={(e) => {
+      e.cancelable = true;
+      if(e.stopPropagation) e.stopPropagation();
+      navigate(`/singleProduct/${props.product.id}`)
+    }}>
       <img
         src={image[0]?.filelocation}
         alt={"Image"}
-        onClick={(e) => {
-          navigate(`/singleProduct/${props.product.id}`)
-        }}
       />
       <div className="card-content">
         <div className="card-content__article">
           <article>
             <h2>{props.product.title}</h2>
-            <h3>${props.product.price}</h3>
+            <p>
+            { props.product.discount > 0 && <del><i>${props.product.price}</i></del>}
+            {" "}
+            <b>${productDiscount}</b>
+            </p>
             <p>{props.product.description}</p>
             {props.quantity && (
               <div>
                 <p>quantity: {props.quantity}</p>
-                <p>Total: {props.product.price * props.quantity}</p>
+                <p>Total: {productTotalAmount}</p>
               </div>
             )}
           </article>
@@ -88,7 +102,8 @@ export const Card = (props: any) => {
                 type="button"
                 className="btncart"
                 onClick={(e) => {
-                  e.preventDefault()
+                  e.cancelable = true;
+                  if(e.stopPropagation) e.stopPropagation();
                   setCart(props.product)
                   setQuantity(quantity ? false : true)
                 }}

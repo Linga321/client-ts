@@ -14,7 +14,7 @@ const initialState: { cartList: ProductCart[]; allCartList: AllProductCart[] } =
 export const fetchCarts = createAsyncThunk(
   "fetchCarts",
   async (params: string) => {
-    return await apiRequestFetch(`/carts`);
+    return await apiRequestFetch(`/carts/${params}`);
   }
 );
 
@@ -38,7 +38,7 @@ export const getUserAllCartApi = createAsyncThunk(
       headers: headers,
     };
     return await apiRequestFetch(
-      `/carts/${cart.userId}/${cart.status}`,
+      `/carts/${cart.userId}/${cart.status}/${cart.params}`,
       settings
     );
   }

@@ -7,25 +7,29 @@ import { getUserAllCartApi } from "../redux/reducers/cartReducer";
 import { RootState } from "../redux/store";
 
 const Profile = () => {
+  const [page, setPage] = useState(0);
   const {
     authRedu: { userAuth: user },
     cartRedu: { allCartList },
   } = useSelector((state: RootState) => state);
   const navigate = useNavigate();
+  
   const dispatch = useAppDispatch();
   const image = user?.avatar && JSON.parse(JSON.stringify(user?.avatar));
+  const limit = 10;
   const cart = {
     userId: user?._id,
     status: "Pending",
+    params: `${page}/${limit}/_id`
   };
   const getUserCarts = async () => {
     await dispatch(getUserAllCartApi(cart));
   };
   useEffect(() => {
     getUserCarts();
-  }, []);
+  }, [page]);
   return (
-    <>
+    <div>
       <div aria-describedby="Profile page" className="profile-container">
         {user && (
           <>
@@ -83,6 +87,11 @@ const Profile = () => {
                           );
                         })}
                     </tbody>
+                    <tfoot>
+                     <tr><td> <button onClick={(e)=>{
+                        setPage(page+1)
+                      }}>next</button></td></tr>
+                    </tfoot>
                   </table>
                 </div>
               )}
@@ -90,7 +99,7 @@ const Profile = () => {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -2,7 +2,7 @@ const URL = "https://shop3-api.herokuapp.com";
 export const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
-  Authorization: `Bearer ${localStorage.getItem("token")}`,
+  Authorization: `Bearer ${localStorage.getItem('token')}`,
 };
 
 export const apiRequestFetch = async (path: string, settings?: any) => {

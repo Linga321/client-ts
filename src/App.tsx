@@ -23,8 +23,10 @@ import Header from "./components/Header";
 import NotFound from "./pages/NotFound";
 import ProfileEditFrom from "./components/ProfileEditFrom";
 import Footer from "./components/Footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function App(probs: any) {
+function App() {
   const activeTheme = getTheme();
   const {
     authRedu: { userAuth: auth },
@@ -32,7 +34,7 @@ function App(probs: any) {
   } = useSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchProducts("offset=0&limit=10"));
+    dispatch(fetchProducts("/0/10/title"));
     dispatch(fetchCategory());
   }, []);
   const handle = useFullScreenHandle();
@@ -66,6 +68,7 @@ function App(probs: any) {
         </Routes>
         <Footer />
       </Router>
+      <ToastContainer />
     </div>
   );
 }

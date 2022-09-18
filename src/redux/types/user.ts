@@ -1,4 +1,5 @@
 export type UserRole = 'Customer' | 'Admin' | 'SuperAdmin'
+
 export interface User{
     _id: string,
     firstName: string

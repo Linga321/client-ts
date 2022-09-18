@@ -7,6 +7,8 @@ import { RootState } from "../redux/store";
 import { useAppDispatch } from "../redux/hooks";
 import ProductReviewForm from "../components/ProductReviewFrom";
 import { getProductRateApi } from "../redux/reducers/productReducer";
+import { addCart } from "../redux/reducers/cartReducer";
+import { notifyByTost } from "../utils/toast";
 
 const SingleProduct = () => {
   let { id } = useParams();
@@ -15,10 +17,9 @@ const SingleProduct = () => {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  const productList = useSelector(
-    (state: RootState) => state.productRedu.productList
-  );
-  let product = productList.filter((item) => {
+  const {productRedu:{productList}, cartRedu : {cartList}} = useSelector((state: RootState) => state)
+
+  let product = productList.filter((item :any) => {
     return item._id == id;
   });
 
@@ -28,6 +29,17 @@ const SingleProduct = () => {
     const rse = await dispatch(getProductRateApi(id as string));
     setRating(rse.payload?.avgRate);
   };
+  const add = (id: string) => {
+    const found = cartList.findIndex((x :any) => x.product._id === id)
+    console.log(found)
+    if (found < 0) {
+      dispatch(addCart({ cart:product[0] }))
+    }
+    else{
+      notifyByTost("Already added to cart", "info")
+    }
+  }
+
   useEffect(() => {
     imageView = product && product[0]?.imagesId;
     numberOfImg = imageView && imageView.length;
@@ -124,6 +136,17 @@ const SingleProduct = () => {
                   src={require("../assets/pictures/star.png")}
                   alt="rate 5"
                 />
+              </div>
+              <div>
+              <button
+                  className="btncart"
+                  type="button"
+                  onClick={() => {
+                    add(product[0]._id)
+                  }}
+                >
+                  Add to Cart
+                </button>
               </div>
             </article>
           </div>

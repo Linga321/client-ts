@@ -30,14 +30,15 @@ export const AdminCard = (props: any) => {
   };
 
   return (
-    <div className="card">
-      <img
-        src={props.product.imagesId[0].filelocation}
-        alt={"Image"}
-        onClick={(e) => {
-          navigate(`/SingleProduct/${props.product._id}`);
-        }}
-      />
+    <div
+      className="card"
+      onClick={(e) => {
+        e.cancelable = true;
+        if(e.stopPropagation) e.stopPropagation();
+        navigate(`/SingleProduct/${props.product._id}`);
+      }}
+    >
+      <img src={props.product.imagesId[0]?.filelocation} alt={"Image"} />
       <div className="card-content">
         <div className="card-content__article">
           <article>
@@ -58,7 +59,8 @@ export const AdminCard = (props: any) => {
               <FontAwesomeIcon
                 icon={faSquarePen}
                 onClick={(e) => {
-                  e.preventDefault();
+                  e.cancelable = true;
+                  if(e.stopPropagation) e.stopPropagation();
                   props.setProductId(props.product._id);
                   document.documentElement.style.setProperty(
                     "--dynamic-popup-product",
@@ -69,6 +71,8 @@ export const AdminCard = (props: any) => {
               <FontAwesomeIcon
                 icon={faTrashCan}
                 onClick={(e) => {
+                  e.cancelable = true;
+                  if(e.stopPropagation) e.stopPropagation();
                   e.preventDefault();
                   deleteProductById(props.product._id);
                 }}

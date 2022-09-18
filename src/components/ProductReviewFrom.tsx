@@ -61,20 +61,17 @@ function ReviewReviewForm(props: any) {
   return (
     <div className="review-main-container">
       <div className="review-container">
-        <div></div>
-        <div>
-          {productReviewList.map((review) => {
+      {productReviewList.map((review) => {
             if (review?.userId) {
               const user: any = review?.userId;
+              const userImage = user?.avatar?.filelocation
+              ? user?.avatar?.filelocation
+              : "https://shop3-api.herokuapp.com/1661504600992i9g39672c0ihebgec680e6gc77_default_profile.png"
               return (
                 <div key={review?._id} className="review">
                   <div className="review-header">
                     <img
-                      src={
-                        user?.avatar?.filelocation
-                          ? user?.avatar?.filelocation
-                          : "https://shop3-api.herokuapp.com/1661504600992i9g39672c0ihebgec680e6gc77_default_profile.png"
-                      }
+                      src={userImage}
                       alt="user img"
                     />
                     <p> {user.firstName}</p>
@@ -86,7 +83,6 @@ function ReviewReviewForm(props: any) {
               );
             }
           })}
-        </div>
       </div>
       <div className="form-container">
         {userAuth?._id && (

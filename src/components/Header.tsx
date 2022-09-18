@@ -21,6 +21,7 @@ import { logout } from "../redux/reducers/userReducer";
 import { RootState } from "../redux/store";
 import { toggleTheme } from "../utils/colors";
 import { deleteCart } from "../redux/reducers/cartReducer";
+import { notifyByTost } from "../utils/toast";
 library.add(
   faRightFromBracket,
   faRightToBracket,
@@ -47,7 +48,7 @@ const Header = () => {
     localStorage.removeItem("token");
   };
   let numberOfCarts = cartList && Object.keys(cartList).length;
-
+  
   return (
     <>
       <nav>
@@ -122,10 +123,17 @@ const Header = () => {
                   <FontAwesomeIcon
                     icon={numberOfCarts > 0 ? faCartPlus : faCartShopping}
                     onClick={() => {
-                      if (numberOfCarts > 0) {
-                        navigate("/carts/order");
+                      if (user) {
+                        if (numberOfCarts > 0) {
+                          navigate("/carts/order");
+                        }else {
+                          notifyByTost("Cart is Empty", "info");
+                        }
+                      } else {
+                          notifyByTost("Please Login", "error");
                       }
                     }}
+
                   />
                 </li>
                 {user && (
@@ -148,6 +156,7 @@ const Header = () => {
               </ul>
             </nav>
           </div>
+
         </div>
         <Outlet />
       </nav>

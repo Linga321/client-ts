@@ -19,8 +19,7 @@ const Carts = () => {
   const [addressEdit, setAddressEdit] = useState({});
   const [addressId, setAddressId] = useState<any>();
   const [errorMeg, setErrorMeg] = useState("");
-  const [order, setOrder] = useState(1);
-  const [orderItem, setOrderItem] = useState([]);
+  const [orderProcessingState, setOrderProcessingState] = useState(1);
   let { mode } = useParams();
   let totalAmount = 0;
   const {
@@ -55,10 +54,20 @@ const Carts = () => {
   };
   const proceedOrder = async () => {
     const result = await dispatch(createCartApi(newcart));
+    if(result.payload?._id)
+    {
+      setOrderProcessingState(1)
+      navigate('/profile')
+    }
   };
 
   const cancelOrder = async () => {
     const result = await dispatch(cancelCart({}));
+    if(result.payload?._id)
+    {
+      setOrderProcessingState(1)
+      navigate('/')
+    }
   };
 
   const deleteAddress = async (id: string) => {
@@ -94,16 +103,16 @@ const Carts = () => {
 
   return (
     <div className="App" aria-describedby="Cart page">
-      {order == 1 && (
+      {orderProcessingState == 1 && (
         <h4 className="heading-cart">Step 1: Add quantity and edit cart</h4>
       )}
-      {order == 2 && (
+      {orderProcessingState == 2 && (
         <h4 className="heading-cart">Step 2: Select delivery address </h4>
       )}
-      {order == 3 && (
+      {orderProcessingState == 3 && (
         <h4 className="heading-cart">Step 3: Confirm and make the payment </h4>
       )}
-      {order == 1 && (
+      {orderProcessingState == 1 && (
         <>
          <CardContainer carts={initialState.filteredCartList} />
           <div className="page-number">
@@ -112,7 +121,7 @@ const Carts = () => {
                 type="button"
                 value="<"
                 onClick={() => {
-                  setOrder(2);
+                  setOrderProcessingState(2);
                 }}
               >
                 Next
@@ -121,7 +130,7 @@ const Carts = () => {
           </div>
         </>
       )}
-      {order == 2 && (
+      {orderProcessingState == 2 && (
         <>
           <div className="address-container">
             <div className="address-view">
@@ -131,7 +140,7 @@ const Carts = () => {
                     <div key={user_add?._id} className="user-address">
                       <div
                         onClick={() => {
-                          setOrder(3);
+                          setOrderProcessingState(3);
                           setAddressId(user_add);
                         }}
                       >
@@ -144,8 +153,7 @@ const Carts = () => {
                         <p>{user_add?.userAddress.country},</p>
                       </div>
                       <button
-                        onClick={(e) => {
-                          e.preventDefault();
+                        onClick={() => {
                           setAddressEdit(address[index]);
                         }}
                       >
@@ -185,7 +193,7 @@ const Carts = () => {
         </>
       )}
 
-      {order == 3 && (
+      {orderProcessingState == 3 && (
         <>
           <div>
             {loading ? (
@@ -236,10 +244,12 @@ const Carts = () => {
                         <td>Total Amount</td>
                         <td>{totalAmount}</td>
                       </tr>
+                    </tbody>
+                    <tfoot>
                       <tr>
                         <td>Delivery Address</td>
                         <td>
-                          {addressId && (
+                        {addressId && (
                             <div key={addressId?._id} className="user-address">
                               <div>
                                 <h3>{addressId?.place},</h3>
@@ -253,7 +263,7 @@ const Carts = () => {
                               <div>
                                 <button
                                   onClick={() => {
-                                    setOrder(2);
+                                    setOrderProcessingState(2);
                                   }}
                                 >
                                   Change
@@ -263,8 +273,6 @@ const Carts = () => {
                           )}
                         </td>
                       </tr>
-                    </tbody>
-                    <tfoot>
                       <tr>
                         <td className="page-number">
                           <button
@@ -280,7 +288,7 @@ const Carts = () => {
                             type="button"
                             value="<"
                             onClick={() => {
-                              setOrder(1);
+                              setOrderProcessingState(1);
                             }}
                           >
                             Edit

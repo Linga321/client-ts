@@ -9,14 +9,15 @@ import { CardContainer } from "../components/CardContainer";
 import { Tags } from "../components/Tags";
 
 const Products = () => {
+  const [page, setPage] = useState(0);
   let { categoryId, productName } = useParams();
-  const [count, setCount] = useState(0);
-  const dispatch = useAppDispatch();
   const foundProductIdOrCategoryId = productName || categoryId;
   const {
     productRedu: { productList },
     categoryRedu: { categoryList },
   } = useSelector((state: RootState) => state);
+
+  const dispatch = useAppDispatch();
 
   const capitalizeTheFirstLetterOfEachWord = (words: string) => {
     let separateWord = words.toLowerCase().split(" ");
@@ -29,12 +30,12 @@ const Products = () => {
 
   const filteredProductList = foundProductIdOrCategoryId
     ? productName
-      ? productList.filter((product) =>
+      ? productList.filter((product :any) =>
           product.title.startsWith(
             capitalizeTheFirstLetterOfEachWord(String(productName))
           )
         )
-      : productList.filter((product) => {
+      : productList.filter((product :any ) => {
           let found = false;
           product?.categoryId.map((category: any) => {
             if (category?._id === categoryId) {
@@ -48,20 +49,23 @@ const Products = () => {
         })
     : productList;
 
-  useEffect(() => {
-    if (count != 0) {
+  const getProducts = async()=>{
+    if (page != 0) {
       const limit = 10;
-      const newOffset = count * limit;
-      dispatch(
-        fetchProducts(`offset=${count == 0 ? 0 : newOffset}&limit=${limit}`)
+      await dispatch(
+        fetchProducts(`/${page}/${limit}/title`)
       );
     }
-  }, [count, productName]);
+  }
+
+  useEffect(() => {
+    getProducts()
+  }, [page, productName]);
   return (
     <div className="App" aria-describedby="Product page">
       <div className="categories-container">
         {categoryList &&
-          categoryList.map((category) => (
+          categoryList.map((category :any) => (
             <Tags key={category._id} category={category} />
           ))}
       </div>
@@ -70,7 +74,7 @@ const Products = () => {
         <button
           type="button"
           onClick={() => {
-            count < 20 ? setCount(count + 1) : setCount(count);
+            page < 20 ? setPage(page + 1) : setPage(page);
           }}
         >
           More
